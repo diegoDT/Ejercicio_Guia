@@ -29,8 +29,8 @@ namespace WindowsFormsApplication1
         {
             //Creamos un IPEndPoint con el ip del servidor y puerto del servidor 
             //al que deseamos conectarnos
-            IPAddress direc = IPAddress.Parse("192.168.1.41");
-            IPEndPoint ipep = new IPEndPoint(direc, 9200);
+            IPAddress direc = IPAddress.Parse("192.168.56.102");
+            IPEndPoint ipep = new IPEndPoint(direc, 9300);
             
 
             //Creamos el socket 
@@ -45,7 +45,7 @@ namespace WindowsFormsApplication1
             catch (SocketException ex)
             {
                 //Si hay excepcion imprimimos error y salimos del programa con return 
-                MessageBox.Show("No se ha podido conectar con el servidor");
+                MessageBox.Show("No he podido conectar con el servidor");
                 return;
             }
 
@@ -82,7 +82,7 @@ namespace WindowsFormsApplication1
                 if (mensaje == "SI")
                     MessageBox.Show("Tu nombre ES bonito.");
                 else
-                    MessageBox.Show("Tu nombre NO es bonito. Lo siento.");
+                    MessageBox.Show("Tu nombre NO bonito. Lo siento.");
 
             }
             else
@@ -117,6 +117,21 @@ namespace WindowsFormsApplication1
             server.Close();
 
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //Pedir numero de servicios realizados
+            string mensaje = "4/";
+
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+
+            //Recibimos la respuesta del servidor
+            byte[] msg2 = new byte[80];
+            server.Receive(msg2);
+            mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+            contLbl.Text= mensaje;
         }
 
      
